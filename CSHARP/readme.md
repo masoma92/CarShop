@@ -1,1 +1,3 @@
-2018/19 School project III. CSHARP
+# beadando
+
+2018/19 I. Féléves beadandó feladat

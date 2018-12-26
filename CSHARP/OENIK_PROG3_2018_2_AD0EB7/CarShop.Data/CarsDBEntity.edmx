@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CARBRANDS">
+          <Key>
+            <PropertyRef Name="brand_id" />
+          </Key>
+          <Property Name="brand_id" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="car_name" Type="varchar" MaxLength="200" />
+          <Property Name="country" Type="varchar" MaxLength="200" />
+          <Property Name="url" Type="varchar" MaxLength="200" />
+          <Property Name="year_of_foundation" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="income_bill" Type="numeric" Precision="5" Scale="2" />
+        </EntityType>
+        <EntityType Name="EXTRAS">
+          <Key>
+            <PropertyRef Name="extra_id" />
+          </Key>
+          <Property Name="extra_id" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="category" Type="varchar" MaxLength="200" />
+          <Property Name="extra_name" Type="varchar" MaxLength="200" />
+          <Property Name="extra_price" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="color" Type="varchar" MaxLength="50" />
+          <Property Name="usagemorethanonce" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="MODELEXTRASWITCHER">
+          <Key>
+            <PropertyRef Name="msd_id" />
+          </Key>
+          <Property Name="msd_id" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="extra_id" Type="numeric" Precision="3" Scale="0" />
+          <Property Name="model_id" Type="numeric" Precision="3" Scale="0" />
+        </EntityType>
+        <EntityType Name="MODELS">
+          <Key>
+            <PropertyRef Name="model_id" />
+          </Key>
+          <Property Name="model_id" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="brand_id" Type="numeric" Precision="3" Scale="0" />
+          <Property Name="model_name" Type="varchar" MaxLength="200" />
+          <Property Name="release_date" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="engine_volume" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="horsepower" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="price" Type="numeric" Precision="20" Scale="0" />
+        </EntityType>
+        <Association Name="CARBRANDS_FOREIGN_KEY">
+          <End Role="CARBRANDS" Type="Self.CARBRANDS" Multiplicity="0..1" />
+          <End Role="MODELS" Type="Self.MODELS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARBRANDS">
+              <PropertyRef Name="brand_id" />
+            </Principal>
+            <Dependent Role="MODELS">
+              <PropertyRef Name="brand_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MES1_FOREIGN_KEY">
+          <End Role="EXTRAS" Type="Self.EXTRAS" Multiplicity="0..1" />
+          <End Role="MODELEXTRASWITCHER" Type="Self.MODELEXTRASWITCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EXTRAS">
+              <PropertyRef Name="extra_id" />
+            </Principal>
+            <Dependent Role="MODELEXTRASWITCHER">
+              <PropertyRef Name="extra_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MES2_FOREIGN_KEY">
+          <End Role="MODELS" Type="Self.MODELS" Multiplicity="0..1" />
+          <End Role="MODELEXTRASWITCHER" Type="Self.MODELEXTRASWITCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MODELS">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="MODELEXTRASWITCHER">
+              <PropertyRef Name="model_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarsModelStoreContainer">
+          <EntitySet Name="CARBRANDS" EntityType="Self.CARBRANDS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EXTRAS" EntityType="Self.EXTRAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MODELEXTRASWITCHER" EntityType="Self.MODELEXTRASWITCHER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MODELS" EntityType="Self.MODELS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="CARBRANDS_FOREIGN_KEY" Association="Self.CARBRANDS_FOREIGN_KEY">
+            <End Role="CARBRANDS" EntitySet="CARBRANDS" />
+            <End Role="MODELS" EntitySet="MODELS" />
+          </AssociationSet>
+          <AssociationSet Name="MES1_FOREIGN_KEY" Association="Self.MES1_FOREIGN_KEY">
+            <End Role="EXTRAS" EntitySet="EXTRAS" />
+            <End Role="MODELEXTRASWITCHER" EntitySet="MODELEXTRASWITCHER" />
+          </AssociationSet>
+          <AssociationSet Name="MES2_FOREIGN_KEY" Association="Self.MES2_FOREIGN_KEY">
+            <End Role="MODELS" EntitySet="MODELS" />
+            <End Role="MODELEXTRASWITCHER" EntitySet="MODELEXTRASWITCHER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CARBRAND">
+          <Key>
+            <PropertyRef Name="brand_id" />
+          </Key>
+          <Property Name="brand_id" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="car_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="year_of_foundation" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="income_bill" Type="Decimal" Precision="5" Scale="2" />
+          <NavigationProperty Name="MODELS" Relationship="Self.CARBRANDS_FOREIGN_KEY" FromRole="CARBRANDS" ToRole="MODELS" />
+        </EntityType>
+        <EntityType Name="EXTRA">
+          <Key>
+            <PropertyRef Name="extra_id" />
+          </Key>
+          <Property Name="extra_id" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="category" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="extra_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="extra_price" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usagemorethanonce" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MODELEXTRASWITCHERs" Relationship="Self.MES1_FOREIGN_KEY" FromRole="EXTRAS" ToRole="MODELEXTRASWITCHER" />
+        </EntityType>
+        <EntityType Name="MODELEXTRASWITCHER">
+          <Key>
+            <PropertyRef Name="msd_id" />
+          </Key>
+          <Property Name="msd_id" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="extra_id" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="model_id" Type="Decimal" Precision="3" Scale="0" />
+          <NavigationProperty Name="EXTRA" Relationship="Self.MES1_FOREIGN_KEY" FromRole="MODELEXTRASWITCHER" ToRole="EXTRAS" />
+          <NavigationProperty Name="MODEL" Relationship="Self.MES2_FOREIGN_KEY" FromRole="MODELEXTRASWITCHER" ToRole="MODELS" />
+        </EntityType>
+        <EntityType Name="MODEL">
+          <Key>
+            <PropertyRef Name="model_id" />
+          </Key>
+          <Property Name="model_id" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="brand_id" Type="Decimal" Precision="3" Scale="0" />
+          <Property Name="model_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="release_date" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="engine_volume" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="horsepower" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="price" Type="Decimal" Precision="20" Scale="0" />
+          <NavigationProperty Name="CARBRAND" Relationship="Self.CARBRANDS_FOREIGN_KEY" FromRole="MODELS" ToRole="CARBRANDS" />
+          <NavigationProperty Name="MODELEXTRASWITCHERs" Relationship="Self.MES2_FOREIGN_KEY" FromRole="MODELS" ToRole="MODELEXTRASWITCHER" />
+        </EntityType>
+        <Association Name="CARBRANDS_FOREIGN_KEY">
+          <End Role="CARBRANDS" Type="Self.CARBRAND" Multiplicity="0..1" />
+          <End Role="MODELS" Type="Self.MODEL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARBRANDS">
+              <PropertyRef Name="brand_id" />
+            </Principal>
+            <Dependent Role="MODELS">
+              <PropertyRef Name="brand_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MES1_FOREIGN_KEY">
+          <End Role="EXTRAS" Type="Self.EXTRA" Multiplicity="0..1" />
+          <End Role="MODELEXTRASWITCHER" Type="Self.MODELEXTRASWITCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EXTRAS">
+              <PropertyRef Name="extra_id" />
+            </Principal>
+            <Dependent Role="MODELEXTRASWITCHER">
+              <PropertyRef Name="extra_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MES2_FOREIGN_KEY">
+          <End Role="MODELS" Type="Self.MODEL" Multiplicity="0..1" />
+          <End Role="MODELEXTRASWITCHER" Type="Self.MODELEXTRASWITCHER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MODELS">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="MODELEXTRASWITCHER">
+              <PropertyRef Name="model_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CARBRANDS" EntityType="Self.CARBRAND" />
+          <EntitySet Name="EXTRAS" EntityType="Self.EXTRA" />
+          <EntitySet Name="MODELEXTRASWITCHERs" EntityType="Self.MODELEXTRASWITCHER" />
+          <EntitySet Name="MODELS" EntityType="Self.MODEL" />
+          <AssociationSet Name="CARBRANDS_FOREIGN_KEY" Association="Self.CARBRANDS_FOREIGN_KEY">
+            <End Role="CARBRANDS" EntitySet="CARBRANDS" />
+            <End Role="MODELS" EntitySet="MODELS" />
+          </AssociationSet>
+          <AssociationSet Name="MES1_FOREIGN_KEY" Association="Self.MES1_FOREIGN_KEY">
+            <End Role="EXTRAS" EntitySet="EXTRAS" />
+            <End Role="MODELEXTRASWITCHER" EntitySet="MODELEXTRASWITCHERs" />
+          </AssociationSet>
+          <AssociationSet Name="MES2_FOREIGN_KEY" Association="Self.MES2_FOREIGN_KEY">
+            <End Role="MODELS" EntitySet="MODELS" />
+            <End Role="MODELEXTRASWITCHER" EntitySet="MODELEXTRASWITCHERs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarsModelStoreContainer" CdmEntityContainer="CarsEntities">
+          <EntitySetMapping Name="CARBRANDS">
+            <EntityTypeMapping TypeName="CarsModel.CARBRAND">
+              <MappingFragment StoreEntitySet="CARBRANDS">
+                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+                <ScalarProperty Name="car_name" ColumnName="car_name" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="year_of_foundation" ColumnName="year_of_foundation" />
+                <ScalarProperty Name="income_bill" ColumnName="income_bill" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EXTRAS">
+            <EntityTypeMapping TypeName="CarsModel.EXTRA">
+              <MappingFragment StoreEntitySet="EXTRAS">
+                <ScalarProperty Name="extra_id" ColumnName="extra_id" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="extra_name" ColumnName="extra_name" />
+                <ScalarProperty Name="extra_price" ColumnName="extra_price" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="usagemorethanonce" ColumnName="usagemorethanonce" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MODELEXTRASWITCHERs">
+            <EntityTypeMapping TypeName="CarsModel.MODELEXTRASWITCHER">
+              <MappingFragment StoreEntitySet="MODELEXTRASWITCHER">
+                <ScalarProperty Name="msd_id" ColumnName="msd_id" />
+                <ScalarProperty Name="extra_id" ColumnName="extra_id" />
+                <ScalarProperty Name="model_id" ColumnName="model_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MODELS">
+            <EntityTypeMapping TypeName="CarsModel.MODEL">
+              <MappingFragment StoreEntitySet="MODELS">
+                <ScalarProperty Name="model_id" ColumnName="model_id" />
+                <ScalarProperty Name="brand_id" ColumnName="brand_id" />
+                <ScalarProperty Name="model_name" ColumnName="model_name" />
+                <ScalarProperty Name="release_date" ColumnName="release_date" />
+                <ScalarProperty Name="engine_volume" ColumnName="engine_volume" />
+                <ScalarProperty Name="horsepower" ColumnName="horsepower" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

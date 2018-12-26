@@ -1,1 +1,3 @@
-2018/19 School project III. JAVA
+# beadando
+
+2018/19 I. Féléves beadandó feladat
